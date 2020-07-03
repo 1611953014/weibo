@@ -1,10 +1,5 @@
 @extends('layouts.default')
-<<<<<<< HEAD
-@section('title',$user->name)
 
-@section('content')
-    {{$user->name}} - {{$user->email}}
-=======
 @section('title', $user->name)
 
 @section('content')
@@ -19,5 +14,4 @@
             </div>
         </div>
     </div>
->>>>>>> 4b44ffeb59ad025da1df00391b155f0489395821
 @stop
