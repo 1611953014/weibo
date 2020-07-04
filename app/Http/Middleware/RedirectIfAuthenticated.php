@@ -18,10 +18,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
+        /*if (Auth::guard($guard)->check()) {
             return redirect(RouteServiceProvider::HOME);
         }
 
-        return $next($request);
+        return $next($request);*/
+        if (Auth::guard($guard)->check()) {
+            session()->flash('info','您已登录，无需重复登录');
+            return redirect('/');
+        }
     }
 }
