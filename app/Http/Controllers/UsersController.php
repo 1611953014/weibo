@@ -17,9 +17,9 @@ class UsersController extends Controller
             'except'=>['show','create','store','index','confirmEmail']
         ]);
 
-        /*$this->middleware('guest', [
+        $this->middleware('guest', [
             'only' => ['create']
-        ]);*/
+        ]);
     }
 
     public function index()

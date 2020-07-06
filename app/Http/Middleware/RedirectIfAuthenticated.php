@@ -27,5 +27,6 @@ class RedirectIfAuthenticated
             session()->flash('info','您已登录，无需重复登录');
             return redirect('/');
         }
+        return $next($request);
     }
 }

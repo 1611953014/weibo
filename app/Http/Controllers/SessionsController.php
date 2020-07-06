@@ -9,9 +9,9 @@ class SessionsController extends Controller
 {
     public function __construct()
     {
-        /*$this->middleware('guest',[
+        $this->middleware('guest',[
             'only'=>['create']
-        ]);*/
+        ]);
     }
 
     public function create()
