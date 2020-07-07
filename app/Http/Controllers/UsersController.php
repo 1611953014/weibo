@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class UsersController extends Controller
 {
@@ -28,11 +32,20 @@ class UsersController extends Controller
         return view('users.index', compact('users'));
     }
 
+    /**
+     * 用户注册界面
+     * @return Application|Factory|View
+     */
     public function create()
     {
         return view('users.create');
     }
 
+    /**
+     * 用户主界面
+     * @param User $user
+     * @return Application|Factory|View
+     */
     public function show(User $user)
     {
         $statuses = $user->statuses()
@@ -64,12 +77,26 @@ class UsersController extends Controller
         return redirect()->route('users.show',[$user]);
     }
 
+    /**
+     * 用户更改界面
+     * @param User $user
+     * @return Application|Factory|View
+     * @throws AuthorizationException
+     */
     public function edit(User $user)
     {
         $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
+    /**
+     * 用户更改资料
+     * @param User $user
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     * @throws ValidationException
+     */
     public function update(User $user,Request $request)
     {
         $this->authorize('update', $user);
@@ -88,6 +115,12 @@ class UsersController extends Controller
         return redirect()->route('users.show', $user->id);
     }
 
+    /**
+     * 删除用户
+     * @param User $user
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     */
     public function destroy(User $user)
     {
         $this->authorize('destroy', $user);
@@ -96,6 +129,9 @@ class UsersController extends Controller
         return back();
     }
 
+    /**
+     * @param $user
+     */
     protected function sendEmailConfirmationTo($user)
     {
         $view = 'emails.confirm';
